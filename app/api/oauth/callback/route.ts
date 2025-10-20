@@ -24,20 +24,21 @@ export async function GET(request: Request) {
   try {
     // For now, create a mock user session
     const mockUser = {
-      id: 'user_' + Math.random().toString(36).substr(2, 9),
+      id: 'user_' + Math.random().toString(36).substring(2, 11),
       email: 'user@example.com',
       username: 'testuser'
     };
 
     // Restore the `next` parameter from the state cookie
     const next = decodeURIComponent(stateCookie.value);
-    const nextUrl = new URL(next, process.env.NEXTAUTH_URL);
+    const baseUrl = process.env.NEXTAUTH_URL || request.url.split('/api')[0];
+    const nextUrl = new URL(next, baseUrl);
 
     // Create response with cookies
     const response = NextResponse.redirect(nextUrl.toString());
     
     // Set cookies for the user session
-    response.cookies.set('whop_access_token', 'mock_token_' + Math.random().toString(36).substr(2, 9), {
+    response.cookies.set('whop_access_token', 'mock_token_' + Math.random().toString(36).substring(2, 11), {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
