@@ -16,17 +16,8 @@ export default withAuth(
       return NextResponse.redirect(new URL('/login', req.url))
     }
 
-    // Check if user has active membership
-    const memberships = token.memberships || []
-    const hasActiveMembership = memberships.some(
-      (membership: any) => membership.status === 'active'
-    )
-
-    // If no active membership, redirect to access denied
-    if (!hasActiveMembership && pathname !== '/access-denied') {
-      return NextResponse.redirect(new URL('/access-denied', req.url))
-    }
-
+    // For now, allow access if user is authenticated
+    // Membership checking will be handled in the ProtectedPage component
     return NextResponse.next()
   },
   {

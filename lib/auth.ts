@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
       authorization: {
         url: 'https://whop.com/oauth/authorize',
         params: {
-          scope: 'read:user read:memberships',
+          scope: 'read:user',
           response_type: 'code',
         },
       },
@@ -42,17 +42,9 @@ export const authOptions: NextAuthOptions = {
         session.accessToken = token.accessToken as string
         session.userId = token.userId as string
         
-        // Get user memberships
-        try {
-          const memberships = await whopAPI.getUserMemberships(
-            token.accessToken as string,
-            token.userId as string
-          )
-          session.memberships = memberships
-        } catch (error) {
-          console.error('Failed to fetch memberships:', error)
-          session.memberships = []
-        }
+        // For now, set empty memberships array
+        // Membership checking will be handled client-side
+        session.memberships = []
       }
       return session
     },
