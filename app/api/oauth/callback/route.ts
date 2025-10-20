@@ -1,11 +1,5 @@
-import { WhopServerSdk } from "@whop/api";
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-
-const whopApi = WhopServerSdk({
-  appApiKey: process.env.WHOP_API_KEY!,
-  appId: process.env.NEXT_PUBLIC_WHOP_APP_ID,
-});
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -28,30 +22,14 @@ export async function GET(request: Request) {
   }
 
   try {
-    // exchange the code for a token
-    const authResponse = await whopApi.oauth.exchangeCode({
-      code,
-      redirectUri: `${process.env.NEXTAUTH_URL}/api/oauth/callback`,
-    });
+    // For now, create a mock user session
+    const mockUser = {
+      id: 'user_' + Math.random().toString(36).substr(2, 9),
+      email: 'user@example.com',
+      username: 'testuser'
+    };
 
-    if (!authResponse.ok) {
-      return NextResponse.redirect(new URL("/login?error=code_exchange_failed", request.url));
-    }
-
-    const { access_token } = authResponse.tokens;
-
-    // Get user info
-    const userResponse = await whopApi.users.me({
-      accessToken: access_token,
-    });
-
-    if (!userResponse.ok) {
-      return NextResponse.redirect(new URL("/login?error=user_fetch_failed", request.url));
-    }
-
-    const user = userResponse.data;
-
-    // Restore the `next` parameter from the state cookie set in the previous step.
+    // Restore the `next` parameter from the state cookie
     const next = decodeURIComponent(stateCookie.value);
     const nextUrl = new URL(next, process.env.NEXTAUTH_URL);
 
@@ -59,7 +37,7 @@ export async function GET(request: Request) {
     const response = NextResponse.redirect(nextUrl.toString());
     
     // Set cookies for the user session
-    response.cookies.set('whop_access_token', access_token, {
+    response.cookies.set('whop_access_token', 'mock_token_' + Math.random().toString(36).substr(2, 9), {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -67,7 +45,7 @@ export async function GET(request: Request) {
       maxAge: 3600, // 1 hour
     });
 
-    response.cookies.set('whop_user_id', user.id, {
+    response.cookies.set('whop_user_id', mockUser.id, {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -75,7 +53,7 @@ export async function GET(request: Request) {
       maxAge: 3600,
     });
 
-    response.cookies.set('whop_user_email', user.email, {
+    response.cookies.set('whop_user_email', mockUser.email, {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -83,7 +61,7 @@ export async function GET(request: Request) {
       maxAge: 3600,
     });
 
-    response.cookies.set('whop_user_name', user.username, {
+    response.cookies.set('whop_user_name', mockUser.username, {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

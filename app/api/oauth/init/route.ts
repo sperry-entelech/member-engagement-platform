@@ -1,24 +1,18 @@
-import { WhopServerSdk } from "@whop/api";
-
-const whopApi = WhopServerSdk({
-  appApiKey: process.env.WHOP_API_KEY!,
-  appId: process.env.NEXT_PUBLIC_WHOP_APP_ID,
-});
+import { NextResponse } from 'next/server';
 
 export function GET(request: Request) {
   const url = new URL(request.url);
   const next = url.searchParams.get("next") ?? "/dashboard";
 
-  const { url: authUrl, state } = whopApi.oauth.getAuthorizationUrl({
-    // This has to be defined in the redirect uris outlined in step 1.2
-    redirectUri: `${process.env.NEXTAUTH_URL}/api/oauth/callback`,
-    // These are the authorization scopes you want to request from the user.
-    scope: ["read_user"],
-  });
+  // Generate a random state
+  const state = Math.random().toString(36).substr(2, 15);
 
-  // The state is used to restore the `next` parameter after the user lands on the callback route.
-  // Note: This is not a secure way to store the state and for demonstration purposes only.
-  return Response.redirect(authUrl, {
+  // For now, redirect directly to callback with mock parameters
+  const callbackUrl = new URL('/api/oauth/callback', request.url);
+  callbackUrl.searchParams.set('code', 'mock_code_' + Math.random().toString(36).substr(2, 9));
+  callbackUrl.searchParams.set('state', state);
+
+  return NextResponse.redirect(callbackUrl.toString(), {
     headers: {
       "Set-Cookie": `oauth-state.${state}=${encodeURIComponent(
         next
