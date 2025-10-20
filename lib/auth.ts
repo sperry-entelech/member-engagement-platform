@@ -41,9 +41,6 @@ export const authOptions: NextAuthOptions = {
       if (token.accessToken && token.userId) {
         session.accessToken = token.accessToken as string
         session.userId = token.userId as string
-        
-        // For now, set empty memberships array
-        // Membership checking will be handled client-side
         session.memberships = []
       }
       return session
@@ -56,6 +53,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
+  debug: true, // Enable debug mode to see what's happening
 }
 
 export default NextAuth(authOptions)
