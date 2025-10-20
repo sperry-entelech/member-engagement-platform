@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { whopAPI } from '@/lib/whop-api'
-import { logWebhookEvent, upsertUser, upsertMembership, getUserByWhopId } from '@/lib/database'
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,12 +21,15 @@ export async function POST(request: NextRequest) {
     const event = JSON.parse(body)
     console.log('Received webhook event:', event.type, event.id)
 
-    // Log the webhook event to database
-    await logWebhookEvent({
-      event_type: event.type,
-      whop_event_id: event.id,
-      payload: event,
-    })
+    // Log the webhook event to database (only if Supabase is configured)
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
+      const { logWebhookEvent } = await import('@/lib/database')
+      await logWebhookEvent({
+        event_type: event.type,
+        whop_event_id: event.id,
+        payload: event,
+      })
+    }
 
     // Handle different event types
     switch (event.type) {
@@ -63,6 +65,14 @@ export async function POST(request: NextRequest) {
 async function handleMembershipCreated(data: any) {
   console.log('Processing membership created:', data.id)
   
+  // Only process if Supabase is configured
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://placeholder.supabase.co') {
+    console.log('Supabase not configured, skipping database operations')
+    return
+  }
+
+  const { getUserByWhopId, upsertMembership } = await import('@/lib/database')
+  
   // First, ensure user exists
   const user = await getUserByWhopId(data.user_id)
   if (!user) {
@@ -86,6 +96,14 @@ async function handleMembershipCreated(data: any) {
 async function handleMembershipUpdated(data: any) {
   console.log('Processing membership updated:', data.id)
   
+  // Only process if Supabase is configured
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://placeholder.supabase.co') {
+    console.log('Supabase not configured, skipping database operations')
+    return
+  }
+
+  const { getUserByWhopId, upsertMembership } = await import('@/lib/database')
+  
   const user = await getUserByWhopId(data.user_id)
   if (!user) {
     console.log('User not found for membership update, skipping:', data.user_id)
@@ -106,6 +124,14 @@ async function handleMembershipUpdated(data: any) {
 
 async function handleMembershipCancelled(data: any) {
   console.log('Processing membership cancelled:', data.id)
+  
+  // Only process if Supabase is configured
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://placeholder.supabase.co') {
+    console.log('Supabase not configured, skipping database operations')
+    return
+  }
+
+  const { getUserByWhopId, upsertMembership } = await import('@/lib/database')
   
   const user = await getUserByWhopId(data.user_id)
   if (!user) {
@@ -128,6 +154,14 @@ async function handleMembershipCancelled(data: any) {
 async function handleMembershipRenewed(data: any) {
   console.log('Processing membership renewed:', data.id)
   
+  // Only process if Supabase is configured
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://placeholder.supabase.co') {
+    console.log('Supabase not configured, skipping database operations')
+    return
+  }
+
+  const { getUserByWhopId, upsertMembership } = await import('@/lib/database')
+  
   const user = await getUserByWhopId(data.user_id)
   if (!user) {
     console.log('User not found for membership renewal, skipping:', data.user_id)
@@ -149,6 +183,14 @@ async function handleMembershipRenewed(data: any) {
 async function handleUserCreated(data: any) {
   console.log('Processing user created:', data.id)
   
+  // Only process if Supabase is configured
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://placeholder.supabase.co') {
+    console.log('Supabase not configured, skipping database operations')
+    return
+  }
+
+  const { upsertUser } = await import('@/lib/database')
+  
   await upsertUser({
     whop_user_id: data.id,
     email: data.email,
@@ -161,6 +203,14 @@ async function handleUserCreated(data: any) {
 
 async function handleUserUpdated(data: any) {
   console.log('Processing user updated:', data.id)
+  
+  // Only process if Supabase is configured
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://placeholder.supabase.co') {
+    console.log('Supabase not configured, skipping database operations')
+    return
+  }
+
+  const { upsertUser } = await import('@/lib/database')
   
   await upsertUser({
     whop_user_id: data.id,
