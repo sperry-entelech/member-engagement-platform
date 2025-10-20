@@ -31,7 +31,7 @@ export async function GET(request: Request) {
 
     // Restore the `next` parameter from the state cookie
     const next = decodeURIComponent(stateCookie.value);
-    const baseUrl = process.env.NEXTAUTH_URL || request.url.split('/api')[0];
+    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : (process.env.NEXTAUTH_URL || request.url.split('/api')[0]);
     const nextUrl = new URL(next, baseUrl);
 
     // Create response with cookies
