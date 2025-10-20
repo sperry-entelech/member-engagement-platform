@@ -1,6 +1,6 @@
 import { WhopServerSdk } from "@whop/api";
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { NextResponse } from 'next/server';
 
 const whopApi = WhopServerSdk({
   appApiKey: process.env.WHOP_API_KEY!,
@@ -13,21 +13,18 @@ export async function GET(request: Request) {
   const state = url.searchParams.get("state");
 
   if (!code) {
-    // redirect to error page
-    return redirect("/login?error=missing_code");
+    return NextResponse.redirect(new URL("/login?error=missing_code", request.url));
   }
 
   if (!state) {
-    // redirect to error page
-    return redirect("/login?error=missing_state");
+    return NextResponse.redirect(new URL("/login?error=missing_state", request.url));
   }
 
   const cookieStore = await cookies();
   const stateCookie = cookieStore.get(`oauth-state.${state}`);
 
   if (!stateCookie) {
-    // redirect to error page
-    return redirect("/login?error=invalid_state");
+    return NextResponse.redirect(new URL("/login?error=invalid_state", request.url));
   }
 
   try {
@@ -38,7 +35,7 @@ export async function GET(request: Request) {
     });
 
     if (!authResponse.ok) {
-      return redirect("/login?error=code_exchange_failed");
+      return NextResponse.redirect(new URL("/login?error=code_exchange_failed", request.url));
     }
 
     const { access_token } = authResponse.tokens;
@@ -49,7 +46,7 @@ export async function GET(request: Request) {
     });
 
     if (!userResponse.ok) {
-      return redirect("/login?error=user_fetch_failed");
+      return NextResponse.redirect(new URL("/login?error=user_fetch_failed", request.url));
     }
 
     const user = userResponse.data;
@@ -58,8 +55,8 @@ export async function GET(request: Request) {
     const next = decodeURIComponent(stateCookie.value);
     const nextUrl = new URL(next, process.env.NEXTAUTH_URL);
 
-    // Set the access token and user info in cookies
-    const response = redirect(nextUrl.toString());
+    // Create response with cookies
+    const response = NextResponse.redirect(nextUrl.toString());
     
     // Set cookies for the user session
     response.cookies.set('whop_access_token', access_token, {
@@ -98,6 +95,6 @@ export async function GET(request: Request) {
 
   } catch (error) {
     console.error('OAuth callback error:', error);
-    return redirect("/login?error=oauth_failed");
+    return NextResponse.redirect(new URL("/login?error=oauth_failed", request.url));
   }
 }
