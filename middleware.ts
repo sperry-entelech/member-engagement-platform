@@ -1,31 +1,24 @@
-import { withAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export default withAuth(
-  function middleware(req) {
-    const token = req.nextauth.token
-    const pathname = req.nextUrl.pathname
+export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
 
-    // Allow access to login and public pages
-    if (pathname === '/login' || pathname === '/access-denied') {
-      return NextResponse.next()
-    }
-
-    // If no token, redirect to login
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', req.url))
-    }
-
-    // For now, allow access if user is authenticated
-    // Membership checking will be handled in the ProtectedPage component
+  // Allow access to login and public pages
+  if (pathname === '/login' || pathname === '/access-denied' || pathname.startsWith('/api/')) {
     return NextResponse.next()
-  },
-  {
-    callbacks: {
-      authorized: ({ token }) => !!token,
-    },
   }
-)
+
+  // Check if user has auth token
+  const accessToken = request.cookies.get('whop_access_token')?.value
+
+  // If no token, redirect to login
+  if (!accessToken) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  return NextResponse.next()
+}
 
 export const config = {
   matcher: [

@@ -7,7 +7,6 @@ import { Bell, Settings, LogOut } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useAuth } from "@/hooks/use-auth"
-import { signOut } from "next-auth/react"
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
@@ -20,10 +19,10 @@ const navigation = [
 
 export function DashboardHeader() {
   const pathname = usePathname()
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
 
   const handleLogout = () => {
-    signOut({ callbackUrl: '/login' })
+    signOut()
   }
 
   return (
@@ -59,8 +58,8 @@ export function DashboardHeader() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                 <Avatar className="h-9 w-9">
-                  <AvatarImage src={user?.image || "/placeholder.svg?height=36&width=36"} alt={user?.name || "User"} />
-                  <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
+                  <AvatarImage src={user?.image || "/placeholder.svg?height=36&width=36"} alt={user?.username || "User"} />
+                  <AvatarFallback>{user?.username?.charAt(0) || "U"}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>

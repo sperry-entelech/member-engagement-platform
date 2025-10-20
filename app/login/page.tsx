@@ -3,11 +3,10 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Zap, Users, BarChart3, Shield } from "lucide-react"
-import { signIn } from "next-auth/react"
 
 export default function LoginPage() {
   const handleSignIn = () => {
-    signIn('whop', { callbackUrl: '/dashboard' })
+    window.location.href = '/api/oauth/init?next=/dashboard'
   }
 
   return (
