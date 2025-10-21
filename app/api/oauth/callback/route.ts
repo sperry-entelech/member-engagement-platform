@@ -2,26 +2,38 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
+  console.log('OAuth callback hit');
+  
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
 
+  console.log('Code:', code);
+  console.log('State:', state);
+
   if (!code) {
+    console.log('No code provided, redirecting to login');
     return NextResponse.redirect(new URL("/login?error=missing_code", request.url));
   }
 
   if (!state) {
+    console.log('No state provided, redirecting to login');
     return NextResponse.redirect(new URL("/login?error=missing_state", request.url));
   }
 
   const cookieStore = await cookies();
   const stateCookie = cookieStore.get(`oauth-state.${state}`);
 
+  console.log('State cookie:', stateCookie);
+
   if (!stateCookie) {
+    console.log('No state cookie found, redirecting to login');
     return NextResponse.redirect(new URL("/login?error=invalid_state", request.url));
   }
 
   try {
+    console.log('Creating mock user session');
+    
     // For now, create a mock user session
     const mockUser = {
       id: 'user_' + Math.random().toString(36).substring(2, 11),
@@ -35,6 +47,8 @@ export async function GET(request: Request) {
     const next = decodeURIComponent(stateCookie.value);
     const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : (process.env.NEXTAUTH_URL || request.url.split('/api')[0]);
     const nextUrl = new URL(next, baseUrl);
+
+    console.log('Redirecting to:', nextUrl.toString());
 
     // Create response with cookies
     const response = NextResponse.redirect(nextUrl.toString());
@@ -72,6 +86,7 @@ export async function GET(request: Request) {
       maxAge: 3600,
     });
 
+    console.log('OAuth callback completed successfully');
     return response;
 
   } catch (error) {
