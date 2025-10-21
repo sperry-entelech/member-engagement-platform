@@ -18,6 +18,8 @@ export async function GET() {
       id: userId,
       email: email,
       username: username,
+      name: username || 'User',
+      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
       accessToken: accessToken,
     })
   } catch (error) {

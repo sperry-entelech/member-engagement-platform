@@ -26,7 +26,9 @@ export async function GET(request: Request) {
     const mockUser = {
       id: 'user_' + Math.random().toString(36).substring(2, 11),
       email: 'user@example.com',
-      username: 'testuser'
+      username: 'testuser',
+      name: 'Test User',
+      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
     };
 
     // Restore the `next` parameter from the state cookie
