@@ -29,17 +29,15 @@ export function DashboardHeader() {
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-16 items-center gap-4 px-6">
         <Link href="/dashboard" className="flex items-center gap-3 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl vibrant-border-blue glow-blue smooth-transition group-hover:glow-purple">
-            <span className="text-lg font-bold text-white">CC</span>
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl simple-card simple-shadow smooth-transition">
+            <span className="text-lg font-bold text-foreground">CC</span>
           </div>
           <span className="hidden font-semibold sm:inline-block text-foreground">Community Core</span>
         </Link>
 
         <nav className="flex flex-1 items-center gap-1">
-          {navigation.map((item, index) => {
+          {navigation.map((item) => {
             const isActive = pathname === item.href
-            const borderColors = ['vibrant-border-blue', 'vibrant-border-green', 'vibrant-border-purple', 'vibrant-border-orange', 'vibrant-border-pink', 'vibrant-border-blue']
-            const glowColors = ['glow-blue', 'glow-green', 'glow-purple', 'glow-orange', 'glow-pink', 'glow-blue']
             
             return (
               <Link
@@ -47,14 +45,11 @@ export function DashboardHeader() {
                 href={item.href}
                 className={`rounded-lg px-4 py-2 text-sm font-medium smooth-transition relative group ${
                   isActive 
-                    ? `${borderColors[index]} ${glowColors[index]} bg-accent/20 text-foreground` 
+                    ? "simple-border bg-accent/20 text-foreground" 
                     : "text-muted-foreground hover:text-foreground hover:bg-accent/10"
                 }`}
               >
                 {item.name}
-                {isActive && (
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
-                )}
               </Link>
             )
           })}
@@ -67,14 +62,14 @@ export function DashboardHeader() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-10 w-10 rounded-xl vibrant-border-purple smooth-transition hover:glow-purple">
+              <Button variant="ghost" className="relative h-10 w-10 rounded-xl simple-card smooth-transition">
                 <Avatar className="h-10 w-10">
                   <AvatarImage src={user?.image || "/placeholder.svg?height=40&width=40"} alt={user?.username || "User"} />
                   <AvatarFallback className="bg-accent text-foreground">{user?.username?.charAt(0) || "U"}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="glass-card vibrant-border">
+            <DropdownMenuContent align="end" className="simple-card">
               <DropdownMenuItem asChild>
                 <Link href="/settings" className="smooth-transition">
                   <Settings className="mr-2 h-4 w-4" />

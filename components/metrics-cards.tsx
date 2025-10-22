@@ -81,28 +81,26 @@ export function MetricsCards() {
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {cards.map((card, index) => {
+      {cards.map((card) => {
         const Icon = card.icon
         const TrendIcon = card.trendUp ? TrendingUp : TrendingDown
-        const borderColors = ['vibrant-border-blue', 'vibrant-border-green', 'vibrant-border-purple', 'vibrant-border-orange', 'vibrant-border-pink', 'vibrant-border-blue']
-        const glowColors = ['glow-blue', 'glow-green', 'glow-purple', 'glow-orange', 'glow-pink', 'glow-blue']
 
         return (
-          <Card key={card.title} className={`p-6 glass-card ${borderColors[index]} smooth-transition hover:${glowColors[index]} group`}>
+          <Card key={card.title} className="p-6 simple-card simple-shadow smooth-transition group hover:bg-secondary">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-muted-foreground">{card.title}</p>
-                <p className={`text-3xl font-bold ${card.color || "text-foreground"} group-hover:text-white smooth-transition`}>{card.value}</p>
+                <p className="text-3xl font-bold text-foreground">{card.value}</p>
               </div>
-              <div className={`p-3 rounded-xl ${borderColors[index]} smooth-transition group-hover:${glowColors[index]}`}>
-                <Icon className={`h-6 w-6 ${card.color || "text-muted-foreground"} group-hover:text-white smooth-transition`} />
+              <div className="p-3 rounded-xl simple-card smooth-transition">
+                <Icon className="h-6 w-6 text-foreground" />
               </div>
             </div>
             <div className="mt-6 flex items-center gap-2 text-sm">
-              <div className={`p-1 rounded-full ${card.trendUp ? "bg-green-500/20" : "bg-red-500/20"}`}>
-                <TrendIcon className={`h-3 w-3 ${card.trendUp ? "text-green-400" : "text-red-400"}`} />
+              <div className="p-1 rounded-full bg-card">
+                <TrendIcon className="h-3 w-3 text-foreground" />
               </div>
-              <span className={`font-medium ${card.trendUp ? "text-green-400" : "text-red-400"}`}>{card.trend}</span>
+              <span className="font-medium text-foreground">{card.trend}</span>
               <span className="text-muted-foreground">from last month</span>
             </div>
           </Card>

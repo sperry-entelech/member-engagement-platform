@@ -115,7 +115,7 @@ export function MemberTable() {
   if (!members) return null
 
   return (
-    <div className="rounded-xl glass-card vibrant-border-pink smooth-transition">
+    <div className="rounded-xl simple-card simple-shadow smooth-transition">
       <Table>
         <TableHeader>
           <TableRow className="border-border/50">
@@ -132,7 +132,7 @@ export function MemberTable() {
             <TableRow key={member.id} className="border-border/30 hover:bg-accent/10 smooth-transition">
               <TableCell>
                 <Link href={`/members/${member.id}`} className="flex items-center gap-3 hover:underline smooth-transition">
-                  <Avatar className="h-12 w-12 vibrant-border-blue">
+                  <Avatar className="h-12 w-12 simple-card">
                     <AvatarImage src={member.avatar || "/placeholder.svg"} alt={member.name} />
                     <AvatarFallback className="bg-accent text-foreground font-semibold">
                       {member.name
@@ -151,11 +151,7 @@ export function MemberTable() {
                 <div className="flex items-center gap-3">
                   <div className="h-3 w-28 overflow-hidden rounded-full bg-secondary">
                     <div
-                      className={`h-full smooth-transition ${
-                        member.riskScore >= 70 ? "bg-gradient-to-r from-green-500 to-green-400" : 
-                        member.riskScore >= 40 ? "bg-gradient-to-r from-yellow-500 to-yellow-400" : 
-                        "bg-gradient-to-r from-red-500 to-red-400"
-                      }`}
+                      className="h-full bg-foreground smooth-transition"
                       style={{ width: `${member.riskScore}%` }}
                     />
                   </div>
@@ -165,11 +161,7 @@ export function MemberTable() {
               <TableCell>
                 <Badge 
                   variant={getRiskBadgeVariant(member.riskLevel)}
-                  className={`smooth-transition ${
-                    member.riskLevel === 'active' ? 'vibrant-border-green' :
-                    member.riskLevel === 'at-risk' ? 'vibrant-border-orange' :
-                    'vibrant-border-pink'
-                  }`}
+                  className="simple-card"
                 >
                   {getRiskLabel(member.riskLevel)}
                 </Badge>
@@ -181,20 +173,20 @@ export function MemberTable() {
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-2">
                   {member.discordUsername && (
-                    <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20 hover:glow-blue">
+                    <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20">
                       <MessageSquare className="h-4 w-4" />
                     </Button>
                   )}
-                  <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20 hover:glow-green">
+                  <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20">
                     <Mail className="h-4 w-4" />
                   </Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20 hover:glow-purple">
+                      <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20">
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="glass-card vibrant-border">
+                    <DropdownMenuContent align="end" className="simple-card">
                       <DropdownMenuItem asChild>
                         <Link href={`/members/${member.id}`} className="smooth-transition">View Profile</Link>
                       </DropdownMenuItem>
