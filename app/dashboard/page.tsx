@@ -8,21 +8,54 @@ import { ProtectedPage } from "@/components/protected-page"
 export default function DashboardPage() {
   return (
     <ProtectedPage>
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-screen flex-col bg-background relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-40 left-10 w-20 h-20 rounded-full bg-gradient-to-r from-blue-500/5 to-purple-500/5 blur-xl animate-pulse"></div>
+          <div className="absolute bottom-40 right-10 w-24 h-24 rounded-full bg-gradient-to-r from-green-500/5 to-blue-500/5 blur-xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/3 right-1/3 w-16 h-16 rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-xl animate-pulse delay-500"></div>
+        </div>
+
         <DashboardHeader />
-        <main className="flex-1 space-y-6 p-6">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">Monitor member engagement and identify at-risk members</p>
+        <main className="flex-1 space-y-8 p-6 relative z-10">
+          <div className="space-y-3">
+            <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              Dashboard
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Monitor member engagement and identify at-risk members
+            </p>
           </div>
 
-          <Suspense fallback={<div>Loading metrics...</div>}>
+          <Suspense fallback={
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="p-6 glass-card vibrant-border rounded-xl animate-pulse">
+                  <div className="space-y-3">
+                    <div className="h-4 bg-muted rounded w-1/2"></div>
+                    <div className="h-8 bg-muted rounded w-3/4"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          }>
             <MetricsCards />
           </Suspense>
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             <DashboardFilters />
-            <Suspense fallback={<div>Loading members...</div>}>
+            <Suspense fallback={
+              <div className="rounded-xl glass-card vibrant-border-pink p-6 animate-pulse">
+                <div className="space-y-4">
+                  <div className="h-6 bg-muted rounded w-1/4"></div>
+                  <div className="space-y-2">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="h-16 bg-muted rounded"></div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            }>
               <MemberTable />
             </Suspense>
           </div>

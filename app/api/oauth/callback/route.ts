@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { env } from '@/lib/env';
 
 export async function GET(request: Request) {
   console.log('OAuth callback hit');
@@ -32,16 +33,45 @@ export async function GET(request: Request) {
   }
 
   try {
-    console.log('Creating mock user session');
+    console.log('Exchanging code for access token');
     
-    // For now, create a mock user session
-    const mockUser = {
-      id: 'user_' + Math.random().toString(36).substring(2, 11),
-      email: 'user@example.com',
-      username: 'testuser',
-      name: 'Test User',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
-    };
+    // Exchange code for access token
+    const tokenResponse = await fetch('https://whop.com/oauth/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        client_id: env.NEXT_PUBLIC_WHOP_APP_ID,
+        client_secret: env.WHOP_API_KEY,
+        code: code,
+        redirect_uri: `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'}/api/oauth/callback`,
+      }),
+    });
+
+    if (!tokenResponse.ok) {
+      console.error('Token exchange failed:', await tokenResponse.text());
+      return NextResponse.redirect(new URL("/login?error=token_exchange_failed", request.url));
+    }
+
+    const tokenData = await tokenResponse.json();
+    console.log('Token received:', tokenData);
+
+    // Fetch user info from Whop API
+    const userResponse = await fetch('https://api.whop.com/api/v2/me', {
+      headers: {
+        'Authorization': `Bearer ${tokenData.access_token}`,
+      },
+    });
+
+    if (!userResponse.ok) {
+      console.error('User fetch failed:', await userResponse.text());
+      return NextResponse.redirect(new URL("/login?error=user_fetch_failed", request.url));
+    }
+
+    const userData = await userResponse.json();
+    console.log('User data:', userData);
 
     // Restore the `next` parameter from the state cookie
     const next = decodeURIComponent(stateCookie.value);
@@ -54,7 +84,7 @@ export async function GET(request: Request) {
     const response = NextResponse.redirect(nextUrl.toString());
     
     // Set cookies for the user session
-    response.cookies.set('whop_access_token', 'mock_token_' + Math.random().toString(36).substring(2, 11), {
+    response.cookies.set('whop_access_token', tokenData.access_token, {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -62,7 +92,7 @@ export async function GET(request: Request) {
       maxAge: 3600, // 1 hour
     });
 
-    response.cookies.set('whop_user_id', mockUser.id, {
+    response.cookies.set('whop_user_id', userData.id, {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -70,7 +100,7 @@ export async function GET(request: Request) {
       maxAge: 3600,
     });
 
-    response.cookies.set('whop_user_email', mockUser.email, {
+    response.cookies.set('whop_user_email', userData.email || '', {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -78,7 +108,7 @@ export async function GET(request: Request) {
       maxAge: 3600,
     });
 
-    response.cookies.set('whop_user_name', mockUser.username, {
+    response.cookies.set('whop_user_name', userData.username || userData.email || 'User', {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

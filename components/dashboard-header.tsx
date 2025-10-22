@@ -26,51 +26,62 @@ export function DashboardHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-16 items-center gap-4 px-6">
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <span className="text-sm font-bold text-primary-foreground">ME</span>
+        <Link href="/dashboard" className="flex items-center gap-3 group">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl vibrant-border-blue glow-blue smooth-transition group-hover:glow-purple">
+            <span className="text-lg font-bold text-white">ME</span>
           </div>
-          <span className="hidden font-semibold sm:inline-block">Member Engagement</span>
+          <span className="hidden font-semibold sm:inline-block text-foreground">Member Engagement</span>
         </Link>
 
         <nav className="flex flex-1 items-center gap-1">
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
-                pathname === item.href ? "bg-accent text-accent-foreground" : "text-muted-foreground"
-              }`}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navigation.map((item, index) => {
+            const isActive = pathname === item.href
+            const borderColors = ['vibrant-border-blue', 'vibrant-border-green', 'vibrant-border-purple', 'vibrant-border-orange', 'vibrant-border-pink', 'vibrant-border-blue']
+            const glowColors = ['glow-blue', 'glow-green', 'glow-purple', 'glow-orange', 'glow-pink', 'glow-blue']
+            
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-lg px-4 py-2 text-sm font-medium smooth-transition relative group ${
+                  isActive 
+                    ? `${borderColors[index]} ${glowColors[index]} bg-accent/20 text-foreground` 
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/10"
+                }`}
+              >
+                {item.name}
+                {isActive && (
+                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+                )}
+              </Link>
+            )
+          })}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20">
             <Bell className="h-5 w-5" />
           </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                <Avatar className="h-9 w-9">
-                  <AvatarImage src={user?.image || "/placeholder.svg?height=36&width=36"} alt={user?.username || "User"} />
-                  <AvatarFallback>{user?.username?.charAt(0) || "U"}</AvatarFallback>
+              <Button variant="ghost" className="relative h-10 w-10 rounded-xl vibrant-border-purple smooth-transition hover:glow-purple">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src={user?.image || "/placeholder.svg?height=40&width=40"} alt={user?.username || "User"} />
+                  <AvatarFallback className="bg-accent text-foreground">{user?.username?.charAt(0) || "U"}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="glass-card vibrant-border">
               <DropdownMenuItem asChild>
-                <Link href="/settings">
+                <Link href="/settings" className="smooth-transition">
                   <Settings className="mr-2 h-4 w-4" />
                   Settings
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleLogout}>
+              <DropdownMenuItem onClick={handleLogout} className="smooth-transition">
                 <LogOut className="mr-2 h-4 w-4" />
                 Log out
               </DropdownMenuItem>

@@ -1,7 +1,9 @@
 // Environment variables - validated at runtime, not build time
 export const env = {
-  WHOP_CLIENT_ID: process.env.WHOP_CLIENT_ID || '',
-  WHOP_CLIENT_SECRET: process.env.WHOP_CLIENT_SECRET || '',
+  WHOP_API_KEY: process.env.WHOP_API_KEY || '',
+  NEXT_PUBLIC_WHOP_APP_ID: process.env.NEXT_PUBLIC_WHOP_APP_ID || '',
+  NEXT_PUBLIC_WHOP_AGENT_USER_ID: process.env.NEXT_PUBLIC_WHOP_AGENT_USER_ID || '',
+  NEXT_PUBLIC_WHOP_COMPANY_ID: process.env.NEXT_PUBLIC_WHOP_COMPANY_ID || '',
   WHOP_WEBHOOK_SECRET: process.env.WHOP_WEBHOOK_SECRET || '',
   NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3000',
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || '',

@@ -115,26 +115,26 @@ export function MemberTable() {
   if (!members) return null
 
   return (
-    <div className="rounded-lg border bg-card">
+    <div className="rounded-xl glass-card vibrant-border-pink smooth-transition">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Member</TableHead>
-            <TableHead>Risk Score</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Last Active</TableHead>
-            <TableHead>Engagement</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+          <TableRow className="border-border/50">
+            <TableHead className="text-foreground font-semibold">Member</TableHead>
+            <TableHead className="text-foreground font-semibold">Risk Score</TableHead>
+            <TableHead className="text-foreground font-semibold">Status</TableHead>
+            <TableHead className="text-foreground font-semibold">Last Active</TableHead>
+            <TableHead className="text-foreground font-semibold">Engagement</TableHead>
+            <TableHead className="text-right text-foreground font-semibold">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {members.map((member) => (
-            <TableRow key={member.id}>
+            <TableRow key={member.id} className="border-border/30 hover:bg-accent/10 smooth-transition">
               <TableCell>
-                <Link href={`/members/${member.id}`} className="flex items-center gap-3 hover:underline">
-                  <Avatar className="h-10 w-10">
+                <Link href={`/members/${member.id}`} className="flex items-center gap-3 hover:underline smooth-transition">
+                  <Avatar className="h-12 w-12 vibrant-border-blue">
                     <AvatarImage src={member.avatar || "/placeholder.svg"} alt={member.name} />
-                    <AvatarFallback>
+                    <AvatarFallback className="bg-accent text-foreground font-semibold">
                       {member.name
                         .split(" ")
                         .map((n) => n[0])
@@ -142,54 +142,65 @@ export function MemberTable() {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium">{member.name}</p>
+                    <p className="font-medium text-foreground">{member.name}</p>
                     <p className="text-sm text-muted-foreground">{member.email}</p>
                   </div>
                 </Link>
               </TableCell>
               <TableCell>
-                <div className="flex items-center gap-2">
-                  <div className="h-2 w-24 overflow-hidden rounded-full bg-secondary">
+                <div className="flex items-center gap-3">
+                  <div className="h-3 w-28 overflow-hidden rounded-full bg-secondary">
                     <div
-                      className={`h-full ${
-                        member.riskScore >= 70 ? "bg-success" : member.riskScore >= 40 ? "bg-warning" : "bg-destructive"
+                      className={`h-full smooth-transition ${
+                        member.riskScore >= 70 ? "bg-gradient-to-r from-green-500 to-green-400" : 
+                        member.riskScore >= 40 ? "bg-gradient-to-r from-yellow-500 to-yellow-400" : 
+                        "bg-gradient-to-r from-red-500 to-red-400"
                       }`}
                       style={{ width: `${member.riskScore}%` }}
                     />
                   </div>
-                  <span className="text-sm font-medium">{member.riskScore}</span>
+                  <span className="text-sm font-medium text-foreground">{member.riskScore}</span>
                 </div>
               </TableCell>
               <TableCell>
-                <Badge variant={getRiskBadgeVariant(member.riskLevel)}>{getRiskLabel(member.riskLevel)}</Badge>
+                <Badge 
+                  variant={getRiskBadgeVariant(member.riskLevel)}
+                  className={`smooth-transition ${
+                    member.riskLevel === 'active' ? 'vibrant-border-green' :
+                    member.riskLevel === 'at-risk' ? 'vibrant-border-orange' :
+                    'vibrant-border-pink'
+                  }`}
+                >
+                  {getRiskLabel(member.riskLevel)}
+                </Badge>
               </TableCell>
               <TableCell className="text-muted-foreground">{member.lastActive}</TableCell>
               <TableCell>
-                <span className="text-sm font-medium">{member.engagement}%</span>
+                <span className="text-sm font-medium text-foreground">{member.engagement}%</span>
               </TableCell>
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-2">
                   {member.discordUsername && (
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20 hover:glow-blue">
                       <MessageSquare className="h-4 w-4" />
                     </Button>
                   )}
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20 hover:glow-green">
                     <Mail className="h-4 w-4" />
                   </Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
+                      <Button variant="ghost" size="icon" className="smooth-transition hover:bg-accent/20 hover:glow-purple">
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="end" className="glass-card vibrant-border">
                       <DropdownMenuItem asChild>
-                        <Link href={`/members/${member.id}`}>View Profile</Link>
+                        <Link href={`/members/${member.id}`} className="smooth-transition">View Profile</Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>Send Message</DropdownMenuItem>
-                      <DropdownMenuItem>Add to Workflow</DropdownMenuItem>
-                      <DropdownMenuItem>Export Data</DropdownMenuItem>
+                      <DropdownMenuItem className="smooth-transition">Send Message</DropdownMenuItem>
+                      <DropdownMenuItem className="smooth-transition">Add to Workflow</DropdownMenuItem>
+                      <DropdownMenuItem className="smooth-transition">Export Data</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>

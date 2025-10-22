@@ -10,50 +10,57 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="flex min-h-screen items-center justify-center p-4">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-32 h-32 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 blur-xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-40 h-40 rounded-full bg-gradient-to-r from-green-500/10 to-blue-500/10 blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-2xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="flex min-h-screen items-center justify-center p-4 relative z-10">
         <div className="w-full max-w-md">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 to-purple-600 shadow-lg">
-              <Users className="h-10 w-10 text-white" />
+          <div className="text-center mb-12">
+            <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-3xl vibrant-border-blue glow-blue smooth-transition">
+              <Users className="h-12 w-12 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-4xl font-bold text-foreground mb-3 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
               Member Engagement Platform
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">
+            <p className="text-muted-foreground text-lg">
               Track, engage, and retain your community members
             </p>
           </div>
 
           {/* Main Card */}
-          <Card className="w-full p-8 shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-            <div className="space-y-6">
+          <Card className="w-full p-10 glass-card vibrant-border smooth-transition hover:glow-purple">
+            <div className="space-y-8">
               {/* Features */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center">
-                  <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900">
-                    <BarChart3 className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <div className="grid grid-cols-3 gap-6 mb-8">
+                <div className="text-center group">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl vibrant-border-blue smooth-transition group-hover:glow-blue">
+                    <BarChart3 className="h-6 w-6 text-white" />
                   </div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Analytics</p>
+                  <p className="text-sm text-muted-foreground">Analytics</p>
                 </div>
-                <div className="text-center">
-                  <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900">
-                    <Users className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <div className="text-center group">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl vibrant-border-green smooth-transition group-hover:glow-green">
+                    <Users className="h-6 w-6 text-white" />
                   </div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Members</p>
+                  <p className="text-sm text-muted-foreground">Members</p>
                 </div>
-                <div className="text-center">
-                  <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900">
-                    <Shield className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                <div className="text-center group">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl vibrant-border-purple smooth-transition group-hover:glow-purple">
+                    <Shield className="h-6 w-6 text-white" />
                   </div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Security</p>
+                  <p className="text-sm text-muted-foreground">Security</p>
                 </div>
               </div>
 
               {/* Sign In Button */}
               <Button 
-                className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-200" 
+                className="w-full h-14 text-lg font-semibold vibrant-border glow-blue hover:glow-purple smooth-transition bg-transparent hover:bg-accent/10 border-2 border-transparent" 
                 size="lg" 
                 onClick={handleSignIn}
               >
@@ -62,14 +69,14 @@ export default function LoginPage() {
               </Button>
 
               {/* Footer */}
-              <div className="text-center">
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-center pt-4">
+                <p className="text-sm text-muted-foreground">
                   By signing in, you agree to our{' '}
-                  <a href="#" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline">
+                  <a href="#" className="text-white hover:text-blue-400 underline smooth-transition">
                     Terms of Service
                   </a>{' '}
                   and{' '}
-                  <a href="#" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline">
+                  <a href="#" className="text-white hover:text-blue-400 underline smooth-transition">
                     Privacy Policy
                   </a>
                 </p>
@@ -78,10 +85,13 @@ export default function LoginPage() {
           </Card>
 
           {/* Bottom Info */}
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Powered by Whop • Secure OAuth Authentication
-            </p>
+          <div className="mt-12 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full vibrant-border-pink smooth-transition">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+              <p className="text-sm text-muted-foreground">
+                Powered by Whop • Secure OAuth Authentication
+              </p>
+            </div>
           </div>
         </div>
       </div>
