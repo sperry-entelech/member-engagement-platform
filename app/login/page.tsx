@@ -48,13 +48,13 @@ export default function LoginPage() {
                   <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-green-600/20 border-2 border-green-500/50 smooth-transition group-hover:glow-green group-hover:bg-green-600/30">
                     <TrendingUp className="h-6 w-6 text-green-400 group-hover:text-green-300" />
                   </div>
-                  <p className="text-sm text-muted-foreground">+LTV</p>
+                  <p className="text-sm text-muted-foreground">Engagement</p>
                 </div>
                 <div className="text-center group">
                   <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 border-2 border-purple-500/50 smooth-transition group-hover:glow-purple group-hover:bg-purple-600/30">
                     <Heart className="h-6 w-6 text-purple-400 group-hover:text-purple-300" />
                   </div>
-                  <p className="text-sm text-muted-foreground">Engagement</p>
+                  <p className="text-sm text-muted-foreground">Retention</p>
                 </div>
               </div>
 
