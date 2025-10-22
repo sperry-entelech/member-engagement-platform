@@ -30,9 +30,9 @@ export function DashboardHeader() {
       <div className="flex h-16 items-center gap-4 px-6">
         <Link href="/dashboard" className="flex items-center gap-3 group">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl vibrant-border-blue glow-blue smooth-transition group-hover:glow-purple">
-            <span className="text-lg font-bold text-white">ME</span>
+            <span className="text-lg font-bold text-white">CC</span>
           </div>
-          <span className="hidden font-semibold sm:inline-block text-foreground">Member Engagement</span>
+          <span className="hidden font-semibold sm:inline-block text-foreground">Community Core</span>
         </Link>
 
         <nav className="flex flex-1 items-center gap-1">

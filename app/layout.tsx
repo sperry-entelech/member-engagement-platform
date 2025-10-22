@@ -7,7 +7,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Member Engagement Platform',
+  title: 'Community Core',
   description: 'Track, engage, and retain your community members with Whop integration',
   generator: 'Next.js',
 }

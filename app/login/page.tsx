@@ -26,7 +26,7 @@ export default function LoginPage() {
               <Users className="h-12 w-12 text-white" />
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-3 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              Member Engagement Platform
+              Community Core
             </h1>
             <p className="text-muted-foreground text-lg">
               Track, engage, and retain your community members
