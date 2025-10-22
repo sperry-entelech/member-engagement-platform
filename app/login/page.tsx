@@ -22,7 +22,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-3xl vibrant-border-blue glow-blue smooth-transition">
+            <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 to-purple-600 border-2 border-blue-500/50 glow-blue smooth-transition shadow-xl">
               <Users className="h-12 w-12 text-white" />
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-3 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -34,25 +34,25 @@ export default function LoginPage() {
           </div>
 
           {/* Main Card */}
-          <Card className="w-full p-10 glass-card vibrant-border smooth-transition hover:glow-purple">
+          <Card className="w-full p-10 bg-card/90 backdrop-blur-xl border-2 border-white/10 vibrant-border smooth-transition hover:glow-purple shadow-2xl">
             <div className="space-y-8">
               {/* Features */}
               <div className="grid grid-cols-3 gap-6 mb-8">
                 <div className="text-center group">
-                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl vibrant-border-blue smooth-transition group-hover:glow-blue">
-                    <BarChart3 className="h-6 w-6 text-white" />
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600/20 border-2 border-blue-500/50 smooth-transition group-hover:glow-blue group-hover:bg-blue-600/30">
+                    <BarChart3 className="h-6 w-6 text-blue-400 group-hover:text-blue-300" />
                   </div>
                   <p className="text-sm text-muted-foreground">Analytics</p>
                 </div>
                 <div className="text-center group">
-                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl vibrant-border-green smooth-transition group-hover:glow-green">
-                    <Users className="h-6 w-6 text-white" />
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-green-600/20 border-2 border-green-500/50 smooth-transition group-hover:glow-green group-hover:bg-green-600/30">
+                    <Users className="h-6 w-6 text-green-400 group-hover:text-green-300" />
                   </div>
                   <p className="text-sm text-muted-foreground">Members</p>
                 </div>
                 <div className="text-center group">
-                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl vibrant-border-purple smooth-transition group-hover:glow-purple">
-                    <Shield className="h-6 w-6 text-white" />
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 border-2 border-purple-500/50 smooth-transition group-hover:glow-purple group-hover:bg-purple-600/30">
+                    <Shield className="h-6 w-6 text-purple-400 group-hover:text-purple-300" />
                   </div>
                   <p className="text-sm text-muted-foreground">Security</p>
                 </div>
@@ -60,7 +60,7 @@ export default function LoginPage() {
 
               {/* Sign In Button */}
               <Button 
-                className="w-full h-14 text-lg font-semibold vibrant-border glow-blue hover:glow-purple smooth-transition bg-transparent hover:bg-accent/10 border-2 border-transparent" 
+                className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-2 border-blue-500/50 hover:border-blue-400/70 smooth-transition shadow-lg hover:shadow-xl glow-blue hover:glow-purple" 
                 size="lg" 
                 onClick={handleSignIn}
               >
