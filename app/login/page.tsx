@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Zap, Users, BarChart3, Shield } from "lucide-react"
+import { Zap, Users, BarChart3, Shield, TrendingUp, Heart } from "lucide-react"
 
 export default function LoginPage() {
   const handleSignIn = () => {
@@ -46,15 +46,15 @@ export default function LoginPage() {
                 </div>
                 <div className="text-center group">
                   <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-green-600/20 border-2 border-green-500/50 smooth-transition group-hover:glow-green group-hover:bg-green-600/30">
-                    <Users className="h-6 w-6 text-green-400 group-hover:text-green-300" />
+                    <TrendingUp className="h-6 w-6 text-green-400 group-hover:text-green-300" />
                   </div>
-                  <p className="text-sm text-muted-foreground">Members</p>
+                  <p className="text-sm text-muted-foreground">+LTV</p>
                 </div>
                 <div className="text-center group">
                   <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 border-2 border-purple-500/50 smooth-transition group-hover:glow-purple group-hover:bg-purple-600/30">
-                    <Shield className="h-6 w-6 text-purple-400 group-hover:text-purple-300" />
+                    <Heart className="h-6 w-6 text-purple-400 group-hover:text-purple-300" />
                   </div>
-                  <p className="text-sm text-muted-foreground">Security</p>
+                  <p className="text-sm text-muted-foreground">Engagement</p>
                 </div>
               </div>
 
