@@ -9,6 +9,10 @@ export default function LoginPage() {
     window.location.href = '/api/oauth/init?next=/dashboard'
   }
 
+  const handleDemoMode = () => {
+    window.location.href = '/demo'
+  }
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
 
@@ -60,6 +64,15 @@ export default function LoginPage() {
               >
                 <Zap className="mr-3 h-6 w-6" />
                 Sign in with Whop
+              </Button>
+
+              {/* Demo Mode Button */}
+              <Button 
+                className="w-full h-12 text-lg font-semibold bg-transparent text-foreground hover:bg-accent hover:text-foreground border-2 border-foreground smooth-transition" 
+                size="lg" 
+                onClick={handleDemoMode}
+              >
+                View Demo Dashboard
               </Button>
 
               {/* Footer */}
