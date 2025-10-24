@@ -4,8 +4,8 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
-  // Allow access to login and public pages
-  if (pathname === '/login' || pathname === '/access-denied' || pathname.startsWith('/api/')) {
+  // Allow access to login, demo, and public pages
+  if (pathname === '/login' || pathname === '/access-denied' || pathname === '/demo' || pathname.startsWith('/api/')) {
     return NextResponse.next()
   }
 
@@ -30,5 +30,6 @@ export const config = {
     '/templates/:path*',
     '/workflows/:path*',
     '/onboarding/:path*',
+    '/demo/:path*',
   ],
 }
