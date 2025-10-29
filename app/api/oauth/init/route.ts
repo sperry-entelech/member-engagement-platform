@@ -11,7 +11,7 @@ export function GET(request: Request) {
   // Redirect to real Whop OAuth URL
   const whopOAuthUrl = new URL('https://whop.com/oauth/authorize');
   whopOAuthUrl.searchParams.set('client_id', env.NEXT_PUBLIC_WHOP_APP_ID);
-  whopOAuthUrl.searchParams.set('redirect_uri', `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'}/api/oauth/callback`);
+  whopOAuthUrl.searchParams.set('redirect_uri', `${env.NEXTAUTH_URL}/api/oauth/callback`);
   whopOAuthUrl.searchParams.set('response_type', 'code');
   whopOAuthUrl.searchParams.set('scope', 'read:user');
   whopOAuthUrl.searchParams.set('state', state);

@@ -46,7 +46,7 @@ export async function GET(request: Request) {
         client_id: env.NEXT_PUBLIC_WHOP_APP_ID,
         client_secret: env.WHOP_API_KEY,
         code: code,
-        redirect_uri: `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'}/api/oauth/callback`,
+        redirect_uri: `${env.NEXTAUTH_URL}/api/oauth/callback`,
       }),
     });
 
@@ -75,7 +75,7 @@ export async function GET(request: Request) {
 
     // Restore the `next` parameter from the state cookie
     const next = decodeURIComponent(stateCookie.value);
-    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : (process.env.NEXTAUTH_URL || request.url.split('/api')[0]);
+    const baseUrl = env.NEXTAUTH_URL;
     const nextUrl = new URL(next, baseUrl);
 
     console.log('Redirecting to:', nextUrl.toString());
